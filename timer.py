@@ -70,6 +70,8 @@ while 1:
         angle_start = 270 - minutes_left
         for _len in range(width//2-border_width-20):
             pygame.gfxdraw.arc(screen, width//2, height//2, _len, angle_start, 270, red)
+        angle_secs = 270 + (60 - seconds_left % 60)*6
+        pygame.gfxdraw.arc(screen, width//2, height//2, 100, 270, angle_secs, black)
         if with_second_display:
             secs_text = bigfont.render(str(seconds_left), True, black)
             _x = width/2 - secs_text.get_width()/2
