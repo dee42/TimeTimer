@@ -26,6 +26,9 @@ border_width=40
 minutes = int(sys.argv[1])
 end_time = datetime.datetime.now() + datetime.timedelta(minutes=minutes)
 
+# TODO: use optparse for this
+with_second_display=False
+
 while 1:
     for event in pygame.event.get():
         if event.type == pygame.QUIT: sys.exit()
@@ -62,10 +65,16 @@ while 1:
     # Draw the arc in red on the clock
     current_time = datetime.datetime.now()
     if current_time < end_time:
-        minutes_left = (end_time - current_time).seconds // 10 + 1
+        seconds_left = (end_time - current_time).seconds
+        minutes_left = seconds_left // 10 + 1
         angle_start = 270 - minutes_left
         for _len in range(width//2-border_width-20):
             pygame.gfxdraw.arc(screen, width//2, height//2, _len, angle_start, 270, red)
+        if with_second_display:
+            secs_text = bigfont.render(str(seconds_left), True, black)
+            _x = width/2 - secs_text.get_width()/2
+            _y = height/2 - secs_text.get_height()/2
+            screen.blit(secs_text, (_x, _y))
     else:
         _x = width/2 - done.get_width()/2
         _y = height/2 - done.get_height()/2
