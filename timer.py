@@ -2,10 +2,11 @@
 # -*- coding: utf-8 -*-
 
 import sys, pygame, numpy
+import pygame.gfxdraw
 import datetime
 pygame.init()
 
-width = height = 640
+width = height = 800
 size = width, height
 black = 0, 0, 0
 white = 255, 255, 255
@@ -61,11 +62,10 @@ while 1:
     # Draw the arc in red on the clock
     current_time = datetime.datetime.now()
     if current_time < end_time:
-        minutes_left = (end_time - current_time).seconds / 60.0
-        angle_start = numpy.pi*minutes_left/30.0 + numpy.pi/2
-        pygame.draw.arc(screen, red, pygame.Rect(border_width+20, border_width+20, width-border_width*2-40, width-border_width*2-40), numpy.pi/2, angle_start, width/2-border_width-20)
-        pygame.draw.arc(screen, red, pygame.Rect(border_width+20, border_width+20, width-border_width*2-40, width-border_width*2-40), numpy.pi/2-0.01, angle_start-0.01, width/2-border_width-20)
-        pygame.draw.arc(screen, red, pygame.Rect(border_width+20, border_width+20, width-border_width*2-40, width-border_width*2-40), numpy.pi/2+0.01, angle_start+0.01, width/2-border_width-20)
+        minutes_left = (end_time - current_time).seconds // 10 + 1
+        angle_start = 270 - minutes_left
+        for _len in range(width//2-border_width-20):
+            pygame.gfxdraw.arc(screen, width//2, height//2, _len, angle_start, 270, red)
     else:
         _x = width/2 - done.get_width()/2
         _y = height/2 - done.get_height()/2
