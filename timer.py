@@ -13,7 +13,8 @@ red = 255, 0, 0
 screen = pygame.display.set_mode(size)
 
 # Create 0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55 in black with background white
-font = pygame.font.Font(None, 20)
+font_size=20
+font = pygame.font.Font(None, font_size)
 numbers = [font.render(str(num), True, black, white) for num in range(0, 60, 5)]
 border_width=40
 
@@ -42,5 +43,13 @@ while 1:
         end_y = tick_y*(height/2-border_width-length) + height/2
         pygame.draw.line(screen, black, (start_x, start_y), (end_x, end_y))
     # Place the text on the correct lines
+    for tick, ticknum in enumerate(numbers):
+        tick_x = -numpy.sin(tick*numpy.pi/6)
+        tick_y = -numpy.cos(tick*numpy.pi/6)
+        centre_x = tick_x*(width/2-font_size) + width/2
+        centre_y = tick_y*(height/2-font_size) + height/2
+        _x = centre_x - ticknum.get_width()/2
+        _y = centre_y - ticknum.get_height()/2
+        screen.blit(ticknum, (_x, _y))
     # Draw the arc in red on the clock
     pygame.display.flip()
