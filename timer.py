@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import sys, pygame, numpy
+import datetime
 pygame.init()
 
 width = height = 640
@@ -16,7 +17,13 @@ screen = pygame.display.set_mode(size)
 font_size=20
 font = pygame.font.Font(None, font_size)
 numbers = [font.render(str(num), True, black, white) for num in range(0, 60, 5)]
+bigfont = pygame.font.Font(None, 100)
+paused = bigfont.render("PAUSED", True, red, white)
+done = bigfont.render("TIME'S UP", True, red, white)
 border_width=40
+
+minutes = int(sys.argv[1])
+end_time = datetime.datetime.now() + datetime.timedelta(minutes=minutes)
 
 while 1:
     for event in pygame.event.get():
@@ -52,4 +59,15 @@ while 1:
         _y = centre_y - ticknum.get_height()/2
         screen.blit(ticknum, (_x, _y))
     # Draw the arc in red on the clock
+    current_time = datetime.datetime.now()
+    if current_time < end_time:
+        minutes_left = (end_time - current_time).seconds / 60.0
+        angle_start = numpy.pi*minutes_left/30.0 + numpy.pi/2
+        pygame.draw.arc(screen, red, pygame.Rect(border_width+20, border_width+20, width-border_width*2-40, width-border_width*2-40), numpy.pi/2, angle_start, width/2-border_width-20)
+        pygame.draw.arc(screen, red, pygame.Rect(border_width+20, border_width+20, width-border_width*2-40, width-border_width*2-40), numpy.pi/2-0.01, angle_start-0.01, width/2-border_width-20)
+        pygame.draw.arc(screen, red, pygame.Rect(border_width+20, border_width+20, width-border_width*2-40, width-border_width*2-40), numpy.pi/2+0.01, angle_start+0.01, width/2-border_width-20)
+    else:
+        _x = width/2 - done.get_width()/2
+        _y = height/2 - done.get_height()/2
+        screen.blit(done, (_x, _y))
     pygame.display.flip()
