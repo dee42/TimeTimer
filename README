@@ -1,0 +1,8 @@
+TIME TIMER
+----------
+
+This is a visual timer to time things.  I use it for my young children, as it gives them a visual representation of how time passes, and they can see how much time they have left for a task.
+
+pygame is the only dependency.
+
+Use is simple - just run the script with one argument, the number of minutes you wish to count down.  The size of the display always represents 60 minutes, as this then gives a child some consistency for how large a segment is how much time.
